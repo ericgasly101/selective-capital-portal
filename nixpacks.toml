@@ -20,5 +20,8 @@ aptPkgs = [
   "ca-certificates"
 ]
 
+[phases.install]
+cmds = ["npm install --omit=dev=false"]
+
 [start]
 cmd = "node server.js"
