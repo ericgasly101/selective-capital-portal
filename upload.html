@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Selective Capital — Secure Document Upload</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap">
+      <img src="/logo.png" alt="Selective Capital" class="logo"
+           onerror="this.onerror=null;this.src='/logo.svg';" />
+      <span class="brand-tag">Secure Document Portal</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <div id="repBanner" class="rep-banner" style="display:none">
+        <span class="dot"></span> <span id="repName">Loading rep…</span>
+      </div>
+      <h1>Upload Your Documents</h1>
+      <p class="lead">
+        Securely send your bank statements, ID, and voided check to your funding rep.
+        Files are transmitted over HTTPS and emailed directly to your rep — they're not stored long-term.
+      </p>
+
+      <form id="uploadForm" autocomplete="on">
+
+        <div class="section">
+          <h2>Your Information</h2>
+          <div class="grid">
+            <div class="full">
+              <label>Business Name <span class="req">*</span></label>
+              <input type="text" name="businessName" required />
+            </div>
+            <div>
+              <label>Your Name <span class="req">*</span></label>
+              <input type="text" name="contactName" required />
+            </div>
+            <div>
+              <label>Email <span class="req">*</span></label>
+              <input type="email" name="contactEmail" required />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input type="tel" name="contactPhone" />
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Documents</h2>
+
+          <label>Bank Statements <span class="req">*</span> <span class="hint" style="font-weight:400">(last 3 months recommended — PDF or image)</span></label>
+          <div class="dropzone" data-field="bankStatements">
+            <div class="label-line">Click or drop files here</div>
+            <div class="small">PDF, JPG, PNG · up to 15 MB each · multiple files OK</div>
+            <input type="file" name="bankStatements" accept=".pdf,image/*" multiple />
+          </div>
+          <ul class="file-list" data-list="bankStatements"></ul>
+
+          <label style="margin-top:18px">Driver's License <span class="req">*</span> <span class="hint" style="font-weight:400">(front of ID)</span></label>
+          <div class="dropzone" data-field="driversLicense">
+            <div class="label-line">Click or drop file here</div>
+            <div class="small">PDF, JPG, PNG · up to 15 MB</div>
+            <input type="file" name="driversLicense" accept=".pdf,image/*" />
+          </div>
+          <ul class="file-list" data-list="driversLicense"></ul>
+
+          <label style="margin-top:18px">Voided Check <span class="req">*</span></label>
+          <div class="dropzone" data-field="voidedCheck">
+            <div class="label-line">Click or drop file here</div>
+            <div class="small">PDF, JPG, PNG · up to 15 MB</div>
+            <input type="file" name="voidedCheck" accept=".pdf,image/*" />
+          </div>
+          <ul class="file-list" data-list="voidedCheck"></ul>
+
+          <label style="margin-top:18px">Other Documents <span class="hint" style="font-weight:400">(optional)</span></label>
+          <div class="dropzone" data-field="other">
+            <div class="label-line">Click or drop files here</div>
+            <div class="small">Anything else your rep asked for</div>
+            <input type="file" name="other" accept=".pdf,image/*,.doc,.docx" multiple />
+          </div>
+          <ul class="file-list" data-list="other"></ul>
+        </div>
+
+        <div class="section">
+          <h2>Notes (optional)</h2>
+          <textarea name="notes" placeholder="Anything else your rep should know?"></textarea>
+        </div>
+
+        <div class="consent">
+          <input type="checkbox" id="consent" required />
+          <label for="consent" class="text" style="margin:0">
+            I confirm the documents I am uploading are accurate and authorize Selective Capital and its funding partners
+            to use them for the purpose of evaluating my funding application.
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="submitBtn">Send Documents</button>
+          <span id="submitNote" class="hint" style="margin-left:6px"></span>
+        </div>
+
+        <div id="banner" class="banner"></div>
+      </form>
+    </div>
+
+    <p class="foot">
+      Selective Capital · Need help? Email your rep directly · <a href="https://selectivecap.com">selectivecap.com</a>
+    </p>
+  </main>
+
+  <script src="/upload.js"></script>
+</body>
+</ht

@@ -1,0 +1,21 @@
+{
+  "name": "selective-capital-portal",
+  "version": "1.0.0",
+  "description": "Selective Capital merchant upload portal + application form (converts to Mahere Capital).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.14",
+    "puppeteer": "^23.11.1"
+  }
+}

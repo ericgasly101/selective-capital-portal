@@ -1,0 +1,181 @@
+/* Selective Capital — light theme
+ * Brand gradient: blue (#3b82f6) → purple (#a855f7) → magenta (#ec4899)
+ * Drop your real logo into public/logo.svg (or .png) — both pages reference it.
+ */
+:root {
+  --sc-blue:    #3b82f6;
+  --sc-purple:  #a855f7;
+  --sc-magenta: #ec4899;
+  --sc-gradient: linear-gradient(135deg, #3b82f6 0%, #a855f7 55%, #ec4899 100%);
+
+  --sc-bg:     #f6f7fb;          /* page background */
+  --sc-card:   #ffffff;
+  --sc-text:   #111827;
+  --sc-muted:  #6b7280;
+  --sc-border: #e5e7eb;
+  --sc-soft:   #fafbff;
+
+  --sc-error:   #dc2626;
+  --sc-success: #059669;
+
+  --radius: 12px;
+  --shadow: 0 6px 28px rgba(59, 130, 246, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--sc-bg);
+  color: var(--sc-text);
+  -webkit-font-smoothing: antialiased;
+  /* subtle gradient hint behind the page */
+  background-image:
+    radial-gradient(ellipse at top left, rgba(59, 130, 246, 0.08), transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(236, 72, 153, 0.06), transparent 55%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* ---------- Top bar (white, matches the light-bg version of the logo) ---------- */
+.topbar {
+  background: #ffffff;
+  padding: 18px 0;
+  position: relative;
+  border-bottom: 1px solid var(--sc-border);
+}
+/* gradient hairline accent under the top bar */
+.topbar::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: -1px;
+  height: 3px;
+  background: var(--sc-gradient);
+}
+.topbar .wrap {
+  max-width: 880px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+.topbar .logo {
+  height: 44px;          /* PNG/SVG height; auto-scales width */
+  width: auto;
+  display: block;
+}
+.topbar .brand-tag {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--sc-muted);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ---------- Container & card ---------- */
+.container {
+  max-width: 880px;
+  margin: 36px auto 64px;
+  padding: 0 24px;
+}
+.card {
+  background: var(--sc-card);
+  border: 1px solid var(--sc-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 30px 32px;
+  position: relative;
+  overflow: hidden;
+}
+/* gradient accent strip down the left edge of the card */
+.card::before {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--sc-gradient);
+}
+
+/* ---------- Headings ---------- */
+h1 {
+  font-size: 26px;
+  margin: 0 0 6px;
+  background: var(--sc-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.3px;
+}
+.lead {
+  color: var(--sc-muted);
+  margin: 0 0 24px;
+  font-size: 15px; line-height: 1.55;
+}
+
+/* ---------- Rep banner ---------- */
+.rep-banner {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.10), rgba(236,72,153,0.10));
+  color: #6d28d9;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  padding: 6px 12px; border-radius: 999px;
+  font-size: 13px; font-weight: 600;
+  margin-bottom: 14px;
+}
+.rep-banner .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--sc-gradient);
+}
+
+/* ---------- Sections ---------- */
+.section { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--sc-border); }
+.section:first-of-type { margin-top: 4px; padding-top: 0; border-top: 0; }
+.section h2 {
+  font-size: 16px; margin: 0 0 14px;
+  color: var(--sc-text);
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+/* ---------- Form grid + inputs ---------- */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+.grid .full { grid-column: 1 / -1; }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+label {
+  display: block; font-size: 13px;
+  color: var(--sc-text); font-weight: 600;
+  margin-bottom: 6px;
+}
+label .req { color: var(--sc-magenta); margin-left: 2px; }
+input[type=text], input[type=email], input[type=tel], input[type=number], input[type=date], select, textarea {
+  width: 100%;
+  padding: 11px 13px;
+  font: inherit; color: var(--sc-text);
+  background: #fff;
+  border: 1px solid var(--sc-border);
+  border-radius: 9px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--sc-purple);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, .15);
+}
+textarea { min-height: 90px; resize: vertical; }
+.hint { font-size: 12px; color: var(--sc-muted); margin-top: 4px; }
+
+/* ---------- File drop zones ---------- */
+.dropzone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 11px;
+  padding: 20px;
+  text-align: center;
+  background: var(--sc-soft);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, transform .05s;
+}
+.dropzone:hover, .dropzone.drag {
+  background: #fff;
+  border-color: var(--sc-purple);
+  background-image: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(236,72,153,0.05));
+}
+.dropzone .label-line { font-weight: 600; color: var(--sc-text); margin-bottom: 4px; }
+.dropzone .small { color: var(--sc-muted); font-size: 12px; }
+.dropzone in

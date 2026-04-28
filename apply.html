@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Selective Capital — Funding Application</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap">
+      <img src="/logo.png" alt="Selective Capital" class="logo"
+           onerror="this.onerror=null;this.src='/logo.svg';" />
+      <span class="brand-tag">Funding Application</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <div id="repBanner" class="rep-banner" style="display:none">
+        <span class="dot"></span> <span id="repName">Loading rep…</span>
+      </div>
+      <h1>Apply for Funding</h1>
+      <p class="lead">
+        Quick application — most merchants finish in under 4 minutes. Your information is sent directly to your funding rep
+        and is used only to evaluate your request.
+      </p>
+
+      <form id="appForm" autocomplete="on">
+
+        <!-- ============== BUSINESS ============== -->
+        <div class="section">
+          <h2>1. Business Information</h2>
+          <div class="grid">
+            <div>
+              <label>Legal Business Name <span class="req">*</span></label>
+              <input type="text" name="businessName" required />
+            </div>
+            <div>
+              <label>DBA (if any)</label>
+              <input type="text" name="dba" />
+            </div>
+            <div>
+              <label>EIN</label>
+              <input type="text" name="ein" placeholder="XX-XXXXXXX" />
+            </div>
+            <div>
+              <label>Industry</label>
+              <input type="text" name="industry" placeholder="e.g. Restaurant, Trucking, Retail" />
+            </div>
+            <div>
+              <label>Entity Type</label>
+              <select name="entityType">
+                <option value="">— Select —</option>
+                <option>LLC</option>
+                <option>Corporation (C-Corp)</option>
+                <option>Corporation (S-Corp)</option>
+                <option>Sole Proprietor</option>
+                <option>Partnership</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label>Business Start Date</label>
+              <input type="date" name="businessStartDate" />
+            </div>
+            <div>
+              <label>Business Phone</label>
+              <input type="tel" name="businessPhone" />
+            </div>
+            <div>
+              <label>Business Email</label>
+              <input type="email" name="businessEmail" />
+            </div>
+            <div class="full">
+              <label>Business Address</label>
+              <input type="text" name="businessAddress" />
+            </div>
+            <div>
+              <label>City</label>
+              <input type="text" name="businessCity" />
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div>
+                <label>State</label>
+                <input type="text" name="businessState" maxlength="2" placeholder="CA" />
+              </div>
+              <div>
+                <label>ZIP</label>
+                <input type="text" name="businessZip" maxlength="10" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============== OWNER ============== -->
+        <div class="section">
+          <h2>2. Owner Information</h2>
+          <div class="grid">
+            <div>
+              <label>First Name <span class="req">*</span></label>
+              <input type="text" name="ownerFirstName" required />
+            </div>
+            <div>
+              <label>Last Name <span class="req">*</span></label>
+              <input type="text" name="ownerLastName" required />
+            </div>
+            <div>
+              <label>Title</label>
+              <input type="text" name="ownerTitle" placeholder="Owner, CEO, etc." />
+            </div>
+            <div>
+              <label>Ownership %</label>
+              <input type="number" name="ownershipPct" min="0" max="100" />
+            </div>
+            <div>
+              <label>SSN</label>
+              <input type="text" name="ownerSsn" placeholder="XXX-XX-XXXX" autocomplete="off" />
+              <div class="hint">Encrypted in transit. Used for credit pull authorization only.</div>
+            </div>
+            <div>
+              <label>Date of Birth</label>
+              <input type="date" name="ownerDob" />
+            </div>
+            <div>
+              <label>Email <span class="req">*</span></label>
+              <input type="email" name="ownerEmail" required />
+            </div>
+            <div>
+              <label>Mobile Phone</label>
+              <input type="tel" name="ownerPhone" />
+            </div>
+            <div class="full">
+              <label>Home Address</label>
+              <input type="text" name="ownerAddress" />
+            </div>
+            <div>
+              <label>City</label>
+              <input type="text" name="ownerCity" />
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div>
+                <label>State</label>
+                <input type="text" name="ownerState" maxlength="2" />
+              </div>
+              <div>
+                <label>ZIP</label>
+                <input type="text" name="ownerZip" maxlength="10" />
+              </div>
+            </div>
+            <div class="full">
+              <label>Second Owner (20%-49%) <span class="hint" style="font-weight:400">(optional)</span></label>
+              <input type="text" name="secondOwner" placeholder="Full name, or leave blank if none" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ============== FUNDING ============== -->
+        <div class="section">
+          <h2>3. Funding Request</h2>
+          <div class="grid">
+            <div>
+              <label>Requested Amount ($) <span class="req">*</span></label>
+              <input type="number" name="requestedAmount" required min="1000" step="1000" placeholder="50000" />
+            </div>
+            <div>
+              <label>Use of Funds</label>
+              <select name="useOfFunds">
+                <option value="">— Select —</option>
+                <option>Working Capital</option>
+                <option>Inventory</option>
+                <option>Equipment</option>
+                <option>Expansion</option>
+                <option>Marketing</option>
+                <option>Payroll</option>
+                <option>Debt Consolidation</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label>Avg Monthly Revenue ($)</label>
+              <input type="number" name="monthlyRevenue" min="0" />
+            </div>
+            <div>
+              <label>Avg Monthly Bank Deposits ($)</label>
+              <input type="number" name="monthlyDeposits" min="0" />
+            </div>
+            <div>
+              <label>Existing Advances / Loans?</label>
+              <select name="existingAdvances">
+                <option value="">— Select —</option>
+                <option>None</option>
+                <option>1 active position</option>
+                <option>2 active positions</option>
+                <option>3+ active positions</option>
+              </select>
+            </div>
+            <div>
+              <label>Total Existing Balance ($)</label>
+              <input type="number" name="existingBalance" min="0" />
+            </div>
+            <div class="full">
+              <label>Additional Notes</label>
+              <textarea name="notes" placeholder="Anything else your funding rep should know"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="consent">
+          <input type="checkbox" id="consent" required />
+          <label for="consent" class="text" style="margin:0">
+            By checking this box and submitting this application, I certify the information is true and complete and authorize
+            Selective Capital and its funding partners to verify the information provided, obtain consumer and business
+            credit reports, and contact me about my application. I understand this is a request for funding and not a
+            guarantee of approval.
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="submitBtn">Submit Application</button>
+          <span id="submitNote" class="hint" style="margin-left:6px"></span>
+        </div>
+
+        <div id="banner" class="banner
