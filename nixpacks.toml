@@ -1,22 +1,24 @@
-# Railway / Nixpacks build config
-# Puppeteer needs the Chromium browser plus a handful of system libs at runtime.
-# These nixpkgs install them globally so Puppeteer's bundled Chromium launches cleanly.
+# Railway / Nixpacks config
+# Puppeteer auto-downloads its own Chromium at npm install time;
+# we just need the system shared libraries Chromium links against.
 
 [phases.setup]
-nixPkgs = [
-  "nodejs_20",
-  "chromium",
-  "fontconfig",
-  "freetype",
-  "harfbuzz",
+nixPkgs = ["nodejs_20"]
+aptPkgs = [
+  "fonts-liberation",
+  "libnss3",
+  "libatk1.0-0",
+  "libatk-bridge2.0-0",
+  "libcups2",
+  "libgbm1",
+  "libasound2t64",
+  "libpangocairo-1.0-0",
+  "libxss1",
+  "libgtk-3-0",
+  "libxshmfence1",
+  "libglu1-mesa",
   "ca-certificates"
 ]
-
-[variables]
-# Tell Puppeteer to use the system Chromium provided by Nix instead of
-# downloading its own copy at install time (saves ~170MB and avoids 403s).
-PUPPETEER_SKIP_DOWNLOAD = "true"
-PUPPETEER_EXECUTABLE_PATH = "/nix/var/nix/profiles/default/bin/chromium"
 
 [start]
 cmd = "node server.js"
