@@ -69,7 +69,26 @@ function bytesToHuman(n) {
 function tsString() {
   return new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
 }
-
+// ---------- Subdomain routing ----------
+// application.selectivecap.com/<rep>  →  internally /apply/<rep>
+// docupload.selectivecap.com/<rep>    →  internally /upload/<rep>
+const APPLY_HOSTS  = new Set(['application.selectivecap.com']);
+const UPLOAD_HOSTS = new Set(['docupload.selectivecap.com']);
+app.use((req, res, next) => {
+  const host = (req.headers.host || '').toLowerCase().split(':')[0];
+  const pathOnly = req.url.split('?')[0];
+  if (pathOnly === '/' ||
+      pathOnly.startsWith('/api/') ||
+      pathOnly.startsWith('/apply/') ||
+      pathOnly.startsWith('/upload/') ||
+      pathOnly.startsWith('/healthz') ||
+      /\.(css|js|png|svg|ico|jpe?g|gif|webp)$/i.test(pathOnly)) {
+    return next();
+  }
+  if (APPLY_HOSTS.has(host))       req.url = '/apply'  + req.url;
+  else if (UPLOAD_HOSTS.has(host)) req.url = '/upload' + req.url;
+  next();
+});
 // ---------- Page routes ----------
 
 // Home / index — lists rep links so an admin can copy them
