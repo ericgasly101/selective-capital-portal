@@ -1,44 +1,38 @@
-const nodemailer = require('nodemailer');
+// Sends email via Resend's HTTPS API (port 443 — bypasses any SMTP port blocks).
 
-let transporter = null;
+async function sendMail({ to, subject, html, text, attachments, replyTo, bcc }) {
+  const apiKey = process.env.RESEND_API_KEY || process.env.SMTP_PASS;
+  const from   = process.env.MAIL_FROM || 'Selective Capital Portal <portal@selectivecap.com>';
 
-function getTransporter() {
-  if (transporter) return transporter;
+  if (!apiKey) throw new Error('RESEND_API_KEY (or SMTP_PASS) is not set');
 
-  const host   = process.env.SMTP_HOST;
-  const port   = parseInt(process.env.SMTP_PORT || '465', 10);
-  const secure = String(process.env.SMTP_SECURE || 'true').toLowerCase() === 'true';
-  const user   = process.env.SMTP_USER;
-  const pass   = process.env.SMTP_PASS;
-
-  if (!host || !user || !pass) {
-    console.warn('[mailer] SMTP_HOST / SMTP_USER / SMTP_PASS not set. Emails will fail until configured.');
-  }
-
-  transporter = nodemailer.createTransport({
-    host,
-    port,
-    secure,
-    auth: user && pass ? { user, pass } : undefined,
+  const apiAttachments = (attachments || []).map(a => {
+    const buf = Buffer.isBuffer(a.content) ? a.content : Buffer.from(String(a.content), 'utf8');
+    return { filename: a.filename, content: buf.toString('base64') };
   });
-  return transporter;
-}
 
-async function sendMail({ to, subject, html, text, attachments, replyTo }) {
-  const from = process.env.MAIL_FROM || process.env.SMTP_USER;
-  const bcc  = process.env.MAIL_BCC || undefined;
-
-  const info = await getTransporter().sendMail({
+  const payload = {
     from,
-    to,
-    bcc,
+    to: Array.isArray(to) ? to : [to],
     subject,
     html,
     text,
-    replyTo,
-    attachments,
+    reply_to: replyTo,
+    bcc: bcc || (process.env.MAIL_BCC || undefined),
+    attachments: apiAttachments.length ? apiAttachments : undefined,
+  };
+
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
   });
-  return info;
+
+  if (!r.ok) {
+    const errBody = await r.text();
+    throw new Error('Resend API ' + r.status + ': ' + errBody);
+  }
+  return r.json();
 }
 
 module.exports = { sendMail };
