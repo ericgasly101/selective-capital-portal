@@ -12,7 +12,6 @@ const { buildMahereAppEmail } = require('./mahereTemplate');
 const { htmlToPdf }    = require('./pdfRender');
 
 const app  = express();
-app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 
 // ---------- Middleware ----------
@@ -36,11 +35,13 @@ const submitLimiter = rateLimit({
 
 // ---------- Multer (in-memory file uploads) ----------
 const MAX_FILE_MB = parseInt(process.env.MAX_FILE_MB || '15', 10);
+const MAX_FILES = parseInt(process.env.MAX_FILES || '30', 10);
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
     fileSize: MAX_FILE_MB * 1024 * 1024,
-    files: 20,
+    files: MAX_FILES,
+    fields: 50,
   },
   fileFilter: (req, file, cb) => {
     // Accept common doc/image types
@@ -70,6 +71,7 @@ function bytesToHuman(n) {
 function tsString() {
   return new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
 }
+
 // ---------- Subdomain routing ----------
 // application.selectivecap.com/<rep>  →  internally /apply/<rep>
 // docupload.selectivecap.com/<rep>    →  internally /upload/<rep>
@@ -78,6 +80,7 @@ const UPLOAD_HOSTS = new Set(['docupload.selectivecap.com']);
 app.use((req, res, next) => {
   const host = (req.headers.host || '').toLowerCase().split(':')[0];
   const pathOnly = req.url.split('?')[0];
+  // Skip rewrite for API, already-prefixed paths, and static files
   if (pathOnly === '/' ||
       pathOnly.startsWith('/api/') ||
       pathOnly.startsWith('/apply/') ||
@@ -90,6 +93,7 @@ app.use((req, res, next) => {
   else if (UPLOAD_HOSTS.has(host)) req.url = '/upload' + req.url;
   next();
 });
+
 // ---------- Page routes ----------
 
 // Home / index — lists rep links so an admin can copy them
