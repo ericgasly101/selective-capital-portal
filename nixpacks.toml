@@ -1,24 +1,11 @@
-# Railway / Nixpacks config
-# Puppeteer auto-downloads its own Chromium at npm install time;
-# we just need the system shared libraries Chromium links against.
+# Railway / Nixpacks config — minimal Node-only build.
+# PDF rendering is handled by a placeholder fallback; no Chromium needed.
 
 [phases.setup]
 nixPkgs = ["nodejs_20"]
-aptPkgs = [
-  "fonts-liberation",
-  "libnss3",
-  "libatk1.0-0",
-  "libatk-bridge2.0-0",
-  "libcups2",
-  "libgbm1",
-  "libasound2t64",
-  "libpangocairo-1.0-0",
-  "libxss1",
-  "libgtk-3-0",
-  "libxshmfence1",
-  "libglu1-mesa",
-  "ca-certificates"
-]
+
+[phases.install]
+cmds = ["npm install"]
 
 [start]
 cmd = "node server.js"
