@@ -86,9 +86,7 @@
     submitNote.textContent = '';
 
     if (!buckets.bankStatements.length) return showBanner('error', 'Please attach at least one bank statement.');
-    if (!buckets.driversLicense.length) return showBanner('error', "Please attach your driver's license.");
-    if (!buckets.voidedCheck.length)    return showBanner('error', 'Please attach a voided check.');
-    if (!document.getElementById('consent').checked) return showBanner('error', 'Please check the consent box.');
+            if (!document.getElementById('consent').checked) return showBanner('error', 'Please check the consent box.');
 
     const fd = new FormData(form);
     // Remove the empty native file inputs (we send from buckets instead)
