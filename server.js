@@ -9,7 +9,7 @@ const rateLimit   = require('express-rate-limit');
 const { getRep, REPS } = require('./reps');
 const { sendMail }     = require('./mailer');
 const { buildMahereAppEmail } = require('./mahereTemplate');
-const { htmlToPdf }    = require('./pdfRender');
+const { renderApplicationPdf } = require('./pdfRender');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -277,7 +277,7 @@ app.post('/api/apply/:rep', submitLimiter, express.json({ limit: '256kb' }), asy
     // Render the formal Mahere application to a real PDF (signed/dated by template)
     let pdfBuffer;
     try {
-      pdfBuffer = await htmlToPdf(formalHtml);
+      pdfBuffer = await renderApplicationPdf({ data, rep, reference, dateOnly: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }), timeOnly: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York' }) });
     } catch (pdfErr) {
       console.error('[apply] PDF render failed', pdfErr);
       return res.status(500).json({ ok: false, error: 'Could not generate PDF — ' + pdfErr.message });
